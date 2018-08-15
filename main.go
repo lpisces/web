@@ -22,10 +22,9 @@ func main() {
 			Usage:   "start web server",
 			Action:  serve,
 			Flags: []cli.Flag{
-				cli.StringFlag{
-					Name:  "env, e",
-					Usage: "set run env",
-					Value: "development",
+				cli.BoolFlag{
+					Name:  "debug, d",
+					Usage: "debug mode",
 				},
 				cli.StringFlag{
 					Name:  "port, p",

@@ -10,4 +10,5 @@ func route(e *echo.Echo, conf *config.Config) {
 
 	e.GET("/", handler.HandleWelcome())
 	e.GET("/config", handler.HandleConfig(conf))
+
 }
