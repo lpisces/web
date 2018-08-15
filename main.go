@@ -7,7 +7,9 @@ import (
 	"github.com/labstack/gommon/log"
 	"github.com/lpisces/web/config"
 	"gopkg.in/urfave/cli.v1"
+	"html/template"
 	"os"
+	"path/filepath"
 )
 
 func main() {
@@ -71,6 +73,38 @@ func serve(c *cli.Context) (err error) {
 	e.Use(middleware.Gzip())
 
 	e.HideBanner = true
+
+	// template
+	templates := template.New("")
+	templatePath := "template"
+
+	if _, err := os.Stat(templatePath); err == nil {
+		err = filepath.Walk(templatePath, func(path string, info os.FileInfo, err error) error {
+			if err != nil {
+				return err
+			}
+			if !info.IsDir() {
+				//log.Info(path)
+				_, err := templates.ParseGlob(path)
+				if err != nil {
+					return err
+				}
+			}
+			return nil
+		})
+		if err != nil {
+			e.Logger.Fatal(err)
+		}
+	}
+
+	e.Renderer = &Template{
+		templates: templates,
+	}
+
+	// public
+	e.Static("/public", "public")
+
+	// route
 	route(e, Conf)
 
 	// set log level
