@@ -58,6 +58,13 @@ func serve(c *cli.Context) (err error) {
 			"0.0.0.0",
 			"1323",
 		},
+		&config.DB{
+			"127.0.0.1",
+			"3306",
+			"root",
+			"123456",
+			"web",
+		},
 	}
 
 	if err = Conf.Load(c); err != nil {

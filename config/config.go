@@ -10,11 +10,20 @@ type (
 		Debug      bool
 		ConfigFile string
 		*Srv
+		*DB
 	}
 
 	Srv struct {
 		Host string
 		Port string
+	}
+
+	DB struct {
+		Host     string
+		Port     string
+		Username string
+		Password string
+		Database string
 	}
 )
 
