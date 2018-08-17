@@ -100,7 +100,8 @@ func serve(c *cli.Context) (err error) {
 			return nil
 		})
 		if err != nil {
-			e.Logger.Fatal(err)
+			//e.Logger.Fatal(err)
+			return err
 		}
 	}
 
@@ -112,7 +113,9 @@ func serve(c *cli.Context) (err error) {
 	e.Static("/public", "public")
 
 	// route
-	route(e, Conf)
+	if err := route(e, Conf); err != nil {
+		return err
+	}
 
 	// set log level
 	if Conf.Debug {
@@ -121,5 +124,7 @@ func serve(c *cli.Context) (err error) {
 
 	e.Logger.Infof("http server started on %s:%s, debug: %v", Conf.Srv.Host, Conf.Srv.Port, Conf.Debug)
 	e.Logger.Fatal(e.Start(fmt.Sprintf("%s:%s", Conf.Srv.Host, Conf.Srv.Port)))
+
+	defer model.DB.close()
 	return
 }
