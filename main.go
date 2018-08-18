@@ -116,7 +116,7 @@ func serve(c *cli.Context) (err error) {
 		e.Logger.SetLevel(log.DEBUG)
 	}
 
-	e.Logger.Infof("http server started on %s:%s, debug: %v", Conf.Srv.Host, Conf.Srv.Port, Conf.Debug)
+	e.Logger.Debugf("http server started on %s:%s, debug: %v", Conf.Srv.Host, Conf.Srv.Port, Conf.Debug)
 	e.Logger.Fatal(e.Start(fmt.Sprintf("%s:%s", Conf.Srv.Host, Conf.Srv.Port)))
 
 	defer model.DB.Close()
