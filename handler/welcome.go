@@ -13,7 +13,7 @@ func HandleWelcome() func(c echo.Context) error {
 	}
 }
 
-func HandleConfig(conf *config.Config) func(c echo.Context) error {
+func HandleHost(conf *config.Config) func(c echo.Context) error {
 	return func(c echo.Context) error {
 		return c.String(http.StatusOK, fmt.Sprintf("%v", conf.Srv.Host))
 	}

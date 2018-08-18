@@ -14,7 +14,7 @@ func route(e *echo.Echo, conf *config.Config) (err error) {
 	}
 
 	e.GET("/", handler.HandleWelcome())
-	e.GET("/config", handler.HandleConfig(conf))
+	e.GET("/host", handler.HandleHost(conf))
 
 	return
 }

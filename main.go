@@ -6,6 +6,7 @@ import (
 	"github.com/labstack/echo/middleware"
 	"github.com/labstack/gommon/log"
 	"github.com/lpisces/web/config"
+	"github.com/lpisces/web/model"
 	"gopkg.in/urfave/cli.v1"
 	"html/template"
 	"os"
@@ -58,13 +59,7 @@ func serve(c *cli.Context) (err error) {
 			"0.0.0.0",
 			"1323",
 		},
-		&config.DB{
-			"127.0.0.1",
-			"3306",
-			"root",
-			"123456",
-			"web",
-		},
+		&config.DB{},
 	}
 
 	if err = Conf.Load(c); err != nil {
@@ -91,7 +86,6 @@ func serve(c *cli.Context) (err error) {
 				return err
 			}
 			if !info.IsDir() {
-				//log.Info(path)
 				_, err := templates.ParseGlob(path)
 				if err != nil {
 					return err
@@ -100,7 +94,7 @@ func serve(c *cli.Context) (err error) {
 			return nil
 		})
 		if err != nil {
-			//e.Logger.Fatal(err)
+			e.Logger.Info(err)
 			return err
 		}
 	}
@@ -125,6 +119,6 @@ func serve(c *cli.Context) (err error) {
 	e.Logger.Infof("http server started on %s:%s, debug: %v", Conf.Srv.Host, Conf.Srv.Port, Conf.Debug)
 	e.Logger.Fatal(e.Start(fmt.Sprintf("%s:%s", Conf.Srv.Host, Conf.Srv.Port)))
 
-	defer model.DB.close()
+	defer model.DB.Close()
 	return
 }
